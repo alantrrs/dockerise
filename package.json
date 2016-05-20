@@ -1,0 +1,30 @@
+{
+  "name": "dockerise",
+  "version": "1.0.0",
+  "description": "Docker as a promise",
+  "main": "index.js",
+  "scripts": {
+    "lint": "standard",
+    "test": "mocha test/index.js",
+    "test-cov": "istanbul cover _mocha -- -u exports -R spec test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alantrrs/dockerise.git"
+  },
+  "keywords": [
+    "docker"
+  ],
+  "author": "@alantrrs",
+  "license": "MIT",
+  "devDependencies": {
+    "istanbul": "^0.4.3",
+    "mocha": "^2.4.5",
+    "standard": "^7.1.0"
+  },
+  "dependencies": {
+    "dockerode": "git+https://github.com/alantrrs/dockerode.git#814e5b59f557e0846e56156f3914365b3e9bd2a7",
+    "shortid": "^2.2.6",
+    "tar-fs": "^1.12.0"
+  }
+}

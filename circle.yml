@@ -1,0 +1,13 @@
+machine:
+  services:
+    - docker
+  node:
+    version: 5
+dependencies:
+  override:
+    - docker pull alantrrs/test_solver
+    - docker pull alantrrs/test_evaluator
+test:
+  override:
+    - npm run lint
+    - npm run test-cov
