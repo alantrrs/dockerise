@@ -18,7 +18,16 @@ describe('Docker', function () {
       // TODO: Assert containers ran correctly
     }).catch(done)
   })
-  it('builds an image')
+  it('builds an image', function (done) {
+    this.timeout(300000)
+    docker.build('./test/test_project', {
+      build: '.',
+      tag: 'test'
+    }).then(function (data) {
+      assert.equal(data.image, 'test')
+      done()
+    }).catch(done)
+  })
   it('respects .dockerignore')
   it('should pull', function (done) {
     this.timeout(20000)
