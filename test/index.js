@@ -7,13 +7,13 @@ describe('Docker', function () {
   it('runs with a volume attached')
   it('should run server-client containers linked', function (done) {
     this.timeout(10000)
-    const test_server = {
+    const testServer = {
       image: 'alantrrs/test_solver'
     }
-    const test_client = {
+    const testClient = {
       image: 'alantrrs/test_evaluator'
     }
-    docker.runLinked(test_server, test_client).then(function (containers) {
+    docker.runLinked(testServer, testClient).then(function (containers) {
       done()
       // TODO: Assert containers ran correctly
     }).catch(done)

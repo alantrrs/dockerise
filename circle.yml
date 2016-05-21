@@ -5,6 +5,7 @@ machine:
     version: 5
 dependencies:
   override:
+    - npm install
     - docker pull alantrrs/test_solver
     - docker pull alantrrs/test_evaluator
 test:

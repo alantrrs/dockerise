@@ -70,7 +70,7 @@ function run (params) {
 
 function runLinked (server, client) {
   // TODO: server.name probably should be random
-  const server_name = server.name || shortid.generate()
+  const serverName = server.name || shortid.generate()
   return new Promise(function (resolve, reject) {
     if (server.command && !Array.isArray(server.command)) {
       server.command = server.command.split(' ')
@@ -81,7 +81,7 @@ function runLinked (server, client) {
       server.image,
       server.command,
       [process.stdout, process.stderr], {
-        name: server_name,
+        name: serverName,
         Tty: false,
         Entrypoint: server.entrypoint
       }, function (err, data, container) {
@@ -96,7 +96,7 @@ function runLinked (server, client) {
       }
     ).on('start', function (container) {
       console.log(`${server.image}: Container started`)
-      client.links = [`${server_name}:solver`]
+      client.links = [`${serverName}:solver`]
       return run(client).then(function (res) {
         resolve({server: container, client: res.container})
       }).catch(function (err) {
