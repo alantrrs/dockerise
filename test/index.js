@@ -1,6 +1,7 @@
 /* eslint-env mocha */
 
 var assert = require('assert')
+var debug = require('debug')('dockerise')
 
 var docker = require('..')
 describe('Docker', function () {
@@ -23,8 +24,11 @@ describe('Docker', function () {
     docker.build('./test/test_project', {
       build: '.',
       tag: 'test'
-    }).then(function (data) {
-      assert.equal(data.image, 'test')
+    }).then(function (stream) {
+      assert(stream)
+      stream.on('data', function (data) {
+        debug(data.toString())
+      })
       done()
     }).catch(done)
   })
