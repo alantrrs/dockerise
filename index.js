@@ -23,6 +23,7 @@ function build (codeDir, params) {
 function logStreamHandler (logHandler) {
   var ws = stream.Writable()
   ws._write = function (chunk, enc, next) {
+    console.log(chunk.toString())
     logHandler(chunk.toString())
     next()
   }
@@ -49,9 +50,8 @@ function run (params, logHandler) {
     docker.run(
       params.image,
       params.command,
-      [logStream || process.stdout, logStream || process.stderr], {
+      logStream || process.stdout, {
         name: params.name,
-        Tty: false,
         Entrypoint: params.entrypoint,
         Env: params.env,
         HostConfig: {
@@ -66,7 +66,9 @@ function run (params, logHandler) {
         if (!container) return reject({err: 'UserError', msg: 'Image does not exist'})
         resolve({container: container, data: data})
       }
-    )
+    ).on('data', function (data) {
+       console.log('DATA:', data)
+    })
   })
 }
 
