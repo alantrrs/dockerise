@@ -16,10 +16,12 @@ describe('Docker', function () {
       tag: 'standalone-test'
     }).then(function (stream) {
       assert(stream)
+      stream.on('end', function (data) {
+        done()
+      })
       stream.on('data', function (data) {
         debug(data.toString())
       })
-      done()
     }).catch(done)
   })
   it('respects .dockerignore')
@@ -33,6 +35,7 @@ describe('Docker', function () {
     this.timeout(10000)
     var usedLogHandler = 0
     function logHandler (log) {
+      debug(log)
       usedLogHandler += 1
     }
     docker.run(standaloneContainer, logHandler).then(function () {

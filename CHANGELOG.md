@@ -1,5 +1,6 @@
 ## v2.1.2 (23 Jun 2016)
-- Remove noisy logs
+- Fix premature approval of build test
+- Remove unnecessary logs
 
 ## v2.1.1 (23 Jun 2016)
 - Fix bug that was buffering all the logs until the run completed. 
