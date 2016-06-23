@@ -6,6 +6,23 @@ var debug = require('debug')('dockerise')
 var docker = require('..')
 describe('Docker', function () {
   it('runs with a volume attached')
+  it('runs a container', function (done) {
+    this.timeout(10000)
+    docker.run({image: 'alantrrs/standalone-test'}).then(function () {
+      done()
+    }).catch(done)
+  })
+  it('runs a container with a log handler', function (done) {
+    this.timeout(10000)
+    var usedLogHandler = 0
+    function logHandler (log) {
+      usedLogHandler += 1
+    }
+    docker.run({image: 'alantrrs/standalone-test'}, logHandler).then(function () {
+      assert.equal(usedLogHandler, 2, 'logHandler should\'ve been used 2 times')
+      done()
+    }).catch(done)
+  })
   it('should run server-client containers linked', function (done) {
     this.timeout(10000)
     const testServer = {

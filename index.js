@@ -4,7 +4,7 @@ var tar = require('tar-fs')
 var path = require('path')
 var shortid = require('shortid')
 var debug = require('debug')('dockerise')
-
+var stream = require('stream')
 var docker = new Docker({socketPath: '/var/run/docker.sock'})
 
 // TODO: Exclude .dockerignore and .gitignore patterns from context
@@ -20,6 +20,15 @@ function build (codeDir, params) {
   })
 }
 
+function logStreamHandler (logHandler) {
+  var ws = stream.Writable()
+  ws._write = function (chunk, enc, next) {
+    logHandler(chunk.toString())
+    next()
+  }
+  return ws
+}
+
 /* dockerode.run params
  * - image
  * - cmd
@@ -28,16 +37,19 @@ function build (codeDir, params) {
  * - start_options (optional)
  * - callback
  */
-function run (params) {
+
+function run (params, logHandler) {
   return new Promise(function (resolve, reject) {
     if (params.command && !Array.isArray(params.command)) {
       params.command = params.command.split(' ')
     }
+    var logStream
+    if (logHandler) logStream = logStreamHandler(logHandler)
     debug(`${params.image}: Running container`)
     docker.run(
       params.image,
       params.command,
-      [process.stdout, process.stderr], {
+      [logStream || process.stdout, logStream || process.stderr], {
         name: params.name,
         Tty: false,
         Entrypoint: params.entrypoint,
@@ -52,11 +64,6 @@ function run (params) {
         debug('CONTAINER: %o', container)
         if (err) return reject({err: err, msg: 'ERROR: docker run'})
         if (!container) return reject({err: 'UserError', msg: 'Image does not exist'})
-        if (data.StatusCode) {
-          return remove(container).then(function () {
-            reject({err: 'UserError', msg: `Evalutor failed with status ${data.StatusCode}`})
-          })
-        }
         resolve({container: container, data: data})
       }
     )
