@@ -23,7 +23,6 @@ function build (codeDir, params) {
 function logStreamHandler (logHandler) {
   var ws = stream.Writable()
   ws._write = function (chunk, enc, next) {
-    console.log(chunk.toString())
     logHandler(chunk.toString())
     next()
   }
@@ -66,9 +65,7 @@ function run (params, logHandler) {
         if (!container) return reject({err: 'UserError', msg: 'Image does not exist'})
         resolve({container: container, data: data})
       }
-    ).on('data', function (data) {
-       console.log('DATA:', data)
-    })
+    )
   })
 }
 

@@ -36,7 +36,6 @@ describe('Docker', function () {
       usedLogHandler += 1
     }
     docker.run(standaloneContainer, logHandler).then(function () {
-      console.log('after run')
       assert(usedLogHandler, 'logHandler should\'ve been used')
       done()
     }).catch(done)
