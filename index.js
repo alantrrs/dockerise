@@ -49,9 +49,8 @@ function run (params, logHandler) {
     docker.run(
       params.image,
       params.command,
-      [logStream || process.stdout, logStream || process.stderr], {
+      logStream || process.stdout, {
         name: params.name,
-        Tty: false,
         Entrypoint: params.entrypoint,
         Env: params.env,
         HostConfig: {
