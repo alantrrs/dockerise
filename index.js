@@ -7,8 +7,8 @@ var debug = require('debug')('dockerise')
 var stream = require('stream')
 var docker = new Docker({socketPath: '/var/run/docker.sock'})
 
-function setSocket (socket) {
-  docker = new Docker({socketPath: socket})
+function connect (params) {
+  docker = new Docker(params)
 }
 
 // TODO: Exclude .dockerignore and .gitignore patterns from context
@@ -189,7 +189,7 @@ function push (imageName, auth, onProgress) {
 }
 
 module.exports = {
-  setSocket: setSocket,
+  connect: connect,
   build: build,
   run: run,
   runLinked: runLinked,
