@@ -1,3 +1,7 @@
+## v2.1.3 (27 Sep 2016)
+- Allows to pass entrypoint as a string
+- Adds tests for entrypoint and command
+
 ## v2.1.2 (23 Jun 2016)
 - Fix premature approval of build test
 - Remove unnecessary logs

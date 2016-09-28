@@ -31,6 +31,23 @@ describe('Docker', function () {
       done()
     }).catch(done)
   })
+  it('overrides entrypoint', function (done) {
+    this.timeout(10000)
+    var container = standaloneContainer
+    container.entrypoint = 'ls -la'
+    docker.run(container).then(function () {
+      done()
+    }).catch(done)
+  })
+  it('overrides entrypoint and command', function (done) {
+    this.timeout(10000)
+    var container = standaloneContainer
+    container.entrypoint = 'ls'
+    container.command = '-la'
+    docker.run(container).then(function () {
+      done()
+    }).catch(done)
+  })
   it('runs a container with a log handler', function (done) {
     this.timeout(10000)
     var usedLogHandler = 0
