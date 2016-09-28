@@ -1,6 +1,6 @@
 {
   "name": "dockerise",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "Docker as a promise",
   "main": "index.js",
   "scripts": {

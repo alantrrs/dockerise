@@ -43,6 +43,9 @@ function run (params, logHandler) {
     if (params.command && !Array.isArray(params.command)) {
       params.command = params.command.split(' ')
     }
+    if (params.entrypoint && !Array.isArray(params.entrypoint)) {
+      params.entrypoint = params.entrypoint.split(' ')
+    }
     var logStream
     if (logHandler) logStream = logStreamHandler(logHandler)
     debug(`${params.image}: Running container`)
