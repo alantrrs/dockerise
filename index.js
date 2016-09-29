@@ -5,7 +5,7 @@ var path = require('path')
 var shortid = require('shortid')
 var debug = require('debug')('dockerise')
 var stream = require('stream')
-var docker = new Docker({socketPath: '/var/run/docker.sock'})
+var docker = new Docker()
 
 // TODO: Exclude .dockerignore and .gitignore patterns from context
 function build (codeDir, params) {
