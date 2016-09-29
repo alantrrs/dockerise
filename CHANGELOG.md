@@ -1,3 +1,7 @@
+## v2.1.4 (28 Sep 2016)
+- Don't hardcode docker socket path. Use dockerode defaults
+- Use dockerode 2.3.1
+
 ## v2.1.3 (27 Sep 2016)
 - Allows to pass entrypoint as a string
 - Adds tests for entrypoint and command
