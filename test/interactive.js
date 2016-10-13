@@ -1,7 +1,7 @@
 
-var runInteractive = require('../lib/run-interactive')
+var docker = require('..')
 
-runInteractive({
+docker.runInteractive({
   image: 'alantrrs/standalone-test',
   entrypoint: 'sh'
 })
