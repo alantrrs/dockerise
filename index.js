@@ -40,27 +40,19 @@ function logStreamHandler (logHandler) {
 
 function run (params, logHandler) {
   return new Promise(function (resolve, reject) {
-    if (params.command && !Array.isArray(params.command)) {
-      params.command = params.command.split(' ')
+    if (params.Command && !Array.isArray(params.Command)) {
+      params.Command = params.Command.split(' ')
     }
-    if (params.entrypoint && !Array.isArray(params.entrypoint)) {
-      params.entrypoint = params.entrypoint.split(' ')
+    if (params.Entrypoint && !Array.isArray(params.Entrypoint)) {
+      params.Entrypoint = params.Entrypoint.split(' ')
     }
     var logStream
     if (logHandler) logStream = logStreamHandler(logHandler)
     debug(`${params.image}: Running container`)
     docker.run(
-      params.image,
-      params.command,
-      logStream || process.stdout, {
-        name: params.name,
-        Entrypoint: params.entrypoint,
-        Env: params.env,
-        HostConfig: {
-          Links: params.links,
-          Binds: params.binds
-        }
-      }, function (err, data, container) {
+      params.Image,
+      params.Command,
+      logStream || process.stdout, params, function (err, data, container) {
         debug(`${params.image}: Finished running`)
         debug('DATA: %o', data)
         debug('CONTAINER: %o', container)
@@ -76,18 +68,21 @@ function runLinked (server, client) {
   // TODO: server.name probably should be random
   const serverName = server.name || shortid.generate()
   return new Promise(function (resolve, reject) {
-    if (server.command && !Array.isArray(server.command)) {
-      server.command = server.command.split(' ')
+    if (server.Command && !Array.isArray(server.Command)) {
+      server.Command = server.Command.split(' ')
+    }
+    if (server.Entrypoint && !Array.isArray(server.Entrypoint)) {
+      server.Entrypoint = server.Entrypoint.split(' ')
     }
     debug(`${server.image}: Running container`)
 
     docker.run(
-      server.image,
-      server.command,
+      server.Image,
+      server.Command,
       [process.stdout, process.stderr], {
         name: serverName,
         Tty: false,
-        Entrypoint: server.entrypoint
+        Entrypoint: server.Entrypoint
       }, function (err, data, container) {
         debug(`${server.image}: Finished running`)
         debug('DATA: %o', data)

@@ -5,9 +5,9 @@ var debug = require('debug')('dockerise')
 
 var docker = require('..')
 describe('Docker', function () {
-  const standaloneContainer = {image: 'standalone-test'}
-  const testServer = {image: 'alantrrs/test_solver'}
-  const testClient = {image: 'alantrrs/test_evaluator'}
+  const standaloneContainer = {Image: 'standalone-test'}
+  const testServer = {Image: 'alantrrs/test_solver'}
+  const testClient = {Image: 'alantrrs/test_evaluator'}
   it('runs with a volume attached')
   it('builds an image', function (done) {
     this.timeout(300000)
@@ -34,7 +34,7 @@ describe('Docker', function () {
   it('overrides entrypoint', function (done) {
     this.timeout(10000)
     var container = standaloneContainer
-    container.entrypoint = 'ls -la'
+    container.Entrypoint = 'ls -la'
     docker.run(container).then(function () {
       done()
     }).catch(done)
@@ -42,8 +42,8 @@ describe('Docker', function () {
   it('overrides entrypoint and command', function (done) {
     this.timeout(10000)
     var container = standaloneContainer
-    container.entrypoint = 'ls'
-    container.command = '-la'
+    container.Entrypoint = 'ls'
+    container.Command = '-la'
     docker.run(container).then(function () {
       done()
     }).catch(done)
