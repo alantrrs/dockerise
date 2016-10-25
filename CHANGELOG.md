@@ -1,3 +1,9 @@
+## v3.0.0 (25 Oct 2016)
+- **Breaking changes**: 
+This new release passes all parameters directly 
+as create options when using ``run()`` and ``runLinked()``.
+Parameters now should be formatted the same way as in dockerode.
+
 ## v2.1.4 (28 Sep 2016)
 - Don't hardcode docker socket path. Use dockerode defaults
 - Use dockerode 2.3.1
