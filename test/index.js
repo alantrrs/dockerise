@@ -18,13 +18,27 @@ describe('Docker', function () {
       assert(stream)
       stream.on('end', function (data) {
         done()
-      })
-      stream.on('data', function (data) {
+      }).on('data', function (data) {
+        assert(!data.error)
         debug(data.toString())
-      })
+      }).on('error', done)
     }).catch(done)
   })
-  it('respects .dockerignore')
+  it('respects .dockerignore', function (done) {
+    this.timeout(300000)
+    docker.build('./test/project2', {
+      build: '.',
+      tag: 'ignore-test'
+    }).then(function (stream) {
+      assert(stream)
+      stream.on('end', function (data) {
+        done()
+      }).on('data', function (data) {
+        assert(!JSON.parse(data).error, 'Should build without error')
+        debug(data.toString())
+      }).on('error', done)
+    }).catch(done)
+  })
   it('runs a container', function (done) {
     this.timeout(10000)
     docker.run(standaloneContainer).then(function () {

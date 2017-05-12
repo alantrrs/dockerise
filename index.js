@@ -6,14 +6,28 @@ var shortid = require('shortid')
 var debug = require('debug')('dockerise')
 var stream = require('stream')
 var docker = new Docker()
+var fs = require('fs')
+var ignore = require('ignore')
 
-// TODO: Exclude .dockerignore and .gitignore patterns from context
 function build (codeDir, params) {
   // FIXME: make sure build path is not outside the code_dir
   var context = path.resolve(codeDir, params.build)
   var query = {t: params.tag, dockerfile: params.dockerfile}
+  // Exclude .dockerignore patterns
+  var opts = {}
+  var dockerignore = path.join(context, '.dockerignore')
+  try {
+    if (fs.lstatSync(dockerignore).isFile()) {
+      var ig = ignore().add(fs.readFileSync(dockerignore).toString())
+      opts.ignore = function (pattern) {
+        return ig.ignores(pattern)
+      }
+    }
+  } catch (e) {
+    if (e.code !== 'ENOENT') throw e
+  }
   return new Promise(function (resolve, reject) {
-    docker.buildImage(tar.pack(context), query, function (err, stream) {
+    docker.buildImage(tar.pack(context, opts), query, function (err, stream) {
       if (err) return reject(err)
       resolve(stream)
     })
