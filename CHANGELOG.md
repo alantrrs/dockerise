@@ -1,3 +1,6 @@
+## v3.1.0 (11 May 2017)
+- Will ignore files on .dockerignore
+
 ## v3.0.0 (25 Oct 2016)
 - **Breaking changes**: 
 This new release passes all parameters directly 
