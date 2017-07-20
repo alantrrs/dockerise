@@ -199,6 +199,7 @@ function push (imageName, auth, onProgress) {
 module.exports = {
   build: build,
   run: run,
+  runInteractive: require('./lib/run-interactive'),
   runLinked: runLinked,
   inspect: inspect,
   stop: stop,
